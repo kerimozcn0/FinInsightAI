@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Firma Finansal Detayı</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-slate-50 p-10 font-sans antialiased text-slate-800">
+    <div class="max-w-5xl mx-auto bg-white p-8 rounded-3xl shadow-2xl border border-slate-100">
+
+        <!-- Üst Bilgi -->
+        <div class="flex justify-between items-center mb-8 border-b border-slate-100 pb-6">
+            <div>
+                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">{{ company.name }}</h1>
+                <p class="text-slate-500 mt-2 font-mono bg-slate-100 inline-block px-3 py-1 rounded-md text-sm">VKN: {{
+                    company.tax_number }}</p>
+            </div>
+            <div
+                class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-5 py-2 rounded-xl font-bold shadow-lg shadow-indigo-200 flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Risk Skoru: {{ company.risk_skoru }}
+            </div>
+        </div>
+
+        <form action="/admin/update_company/{{ company.id }}" method="POST" class="space-y-8">
+
+            <!-- AI TARAFINDAN ÇEKİLEN VERİLER -->
+            <div>
+                <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <span class="text-2xl">🤖</span> AI Otomatik Veri Çıkarımı
+                </h2>
+                <div
+                    class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50/50 p-6 rounded-2xl border border-slate-200">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-600 mb-2">Toplam Kullanılan Tutar</label>
+                        <input type="text" name="toplam_borc" value="{{ company.toplam_borc }}"
+                            class="w-full p-3 border border-slate-300 rounded-xl bg-white focus:ring-2 focus:ring-indigo-500 outline-none font-mono transition-shadow">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-600 mb-2">Tanımlı Maksimum Limit</label>
+                        <input type="text" name="toplam_limit" value="{{ company.toplam_limit }}"
+                            class="w-full p-3 border border-slate-300 rounded-xl bg-white focus:ring-2 focus:ring-indigo-500 outline-none font-mono transition-shadow">
+                    </div>
+
+                    <!-- FİNANSAL DETAYLAR VE GRAFİK (GENELLEŞTİRİLDİ) -->
+                    <div class="col-span-1 md:col-span-2 grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Metin Kutusu (Sol Taraf) -->
+                        <div class="lg:col-span-1 flex flex-col">
+                            <label
+                                class="block text-sm font-semibold text-slate-600 mb-2 flex justify-between items-center">
+                                <span>Finansal Kırılımlar</span>
+                                <span
+                                    class="text-[10px] uppercase tracking-wider text-emerald-500 font-bold animate-pulse bg-emerald-100 px-2 py-1 rounded-md">Canlı
+                                    Senkron</span>
+                            </label>
+                            <textarea id="bankDataInput" name="banka" rows="8" oninput="updateChart()"
+                                class="w-full h-full p-4 border border-slate-300 rounded-xl bg-white focus:ring-2 focus:ring-indigo-500 outline-none font-mono text-sm leading-relaxed shadow-inner resize-none transition-shadow">{{ company.banka_limit }}</textarea>
+                        </div>
+
+                        <!-- Shadcn Area Chart (Sağ Taraf) -->
+                        <div
+                            class="lg:col-span-2 bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex flex-col justify-center relative hover:shadow-md transition-shadow">
+                            <h3 class="text-sm font-bold text-slate-700 mb-2 flex items-center gap-2">
+                                <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z">
+                                    </path>
+                                </svg>
+                                Finansal Dağılım ve Eğilim Analizi
+                            </h3>
+                            <div class="relative h-64 w-full mt-2">
+                                <canvas id="shadcnAreaChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-span-1 md:col-span-2 mt-4">
+                        <label class="block text-sm font-semibold text-slate-600 mb-2">Yapay Zeka (LLM) Uzman
+                            Görüşü</label>
+                        <textarea name="uzman_gorusu" rows="4"
+                            class="w-full p-5 border border-indigo-200 rounded-xl bg-indigo-50/50 text-slate-700 focus:ring-2 focus:ring-indigo-500 outline-none leading-relaxed">{{ company.uzman_gorusu }}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MANUEL EKLENEBİLECEK VERİLER -->
+            <div>
+                <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <span class="text-2xl">✍️</span> Manuel Veri Yönetimi
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 rounded-2xl border border-slate-200 bg-white">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-600 mb-2">Bilanço Toplamı</label>
+                        <input type="text" name="bilanco" value="{{ company.bilanco_toplami }}"
+                            class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-shadow">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-600 mb-2">Gelir Tablosu (Ciro)</label>
+                        <input type="text" name="gelir" value="{{ company.gelir_tablosu }}"
+                            class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-shadow">
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center pt-8 border-t border-slate-100">
+                <a href="/admin"
+                    class="text-slate-500 hover:text-indigo-600 font-medium transition-colors flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    Panele Geri Dön
+                </a>
+                <button type="submit"
+                    class="bg-slate-900 hover:bg-slate-800 text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-slate-300 transition-all transform hover:-translate-y-0.5">
+                    Tüm Değişiklikleri Kaydet
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- SHADCN TARZI GRAFİK (AREA CHART) KODLARI -->
+    <script>
+        let myChart = null;
+
+        function updateChart() {
+            const rawData = document.getElementById('bankDataInput').value;
+            const lines = rawData.split('\n');
+
+            const labels = [];
+            const borcData = [];
+            const limitData = [];
+
+            lines.forEach(line => {
+                if (line.trim().startsWith('-')) {
+                    const match = line.match(/-\s*(.*?)\s*\|\s*Borç:\s*([\d\.,]+).*?Limit:\s*([\d\.,]+)/i);
+                    if (match) {
+                        labels.push(match[1].trim());
+                        borcData.push(parseFloat(match[2].replace(/[^\d]/g, '')));
+                        limitData.push(parseFloat(match[3].replace(/[^\d]/g, '')));
+                    }
+                }
+            });
+
+            const ctx = document.getElementById('shadcnAreaChart').getContext('2d');
+
+            if (myChart) { myChart.destroy(); }
+
+            let gradientBorc = ctx.createLinearGradient(0, 0, 0, 300);
+            gradientBorc.addColorStop(0, 'rgba(239, 68, 68, 0.4)');
+            gradientBorc.addColorStop(1, 'rgba(239, 68, 68, 0.0)');
+
+            let gradientLimit = ctx.createLinearGradient(0, 0, 0, 300);
+            gradientLimit.addColorStop(0, 'rgba(99, 102, 241, 0.4)');
+            gradientLimit.addColorStop(1, 'rgba(99, 102, 241, 0.0)');
+
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Kullanım / Bakiye (TL)',
+                            data: borcData,
+                            borderColor: '#ef4444',
+                            backgroundColor: gradientBorc,
+                            fill: true,
+                            tension: 0.4,
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            pointHoverRadius: 6
+                        },
+                        {
+                            label: 'Tahsis / Limit (TL)',
+                            data: limitData,
+                            borderColor: '#6366f1',
+                            backgroundColor: gradientLimit,
+                            fill: true,
+                            tension: 0.4,
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            pointHoverRadius: 6
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { position: 'top', labels: { usePointStyle: true, boxWidth: 8, font: { family: 'ui-sans-serif, system-ui' } } },
+                        tooltip: { backgroundColor: '#1e293b', padding: 12, titleFont: { size: 14 }, bodyFont: { size: 13 } }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { borderDash: [4, 4], color: '#f1f5f9' },
+                            ticks: { font: { family: 'ui-sans-serif, system-ui', size: 11 }, callback: function (value) { return value >= 1000000 ? (value / 1000000).toFixed(1) + 'M' : value; } }
+                        },
+                        x: { grid: { display: false }, ticks: { font: { family: 'ui-sans-serif, system-ui', size: 11 } } }
+                    }
+                }
+            });
+        }
+        document.addEventListener('DOMContentLoaded', updateChart);
+    </script>
+</body>
+
+</html>

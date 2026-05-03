@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Paneli</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js Kütüphanesi -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-slate-50 text-slate-800 p-10 font-sans antialiased relative">
+
+    <div class="max-w-6xl mx-auto bg-white p-8 rounded-2xl shadow-xl border border-slate-100">
+
+        <!-- Üst Başlık ve Navigasyon -->
+        <div class="flex justify-between items-center mb-8 border-b border-slate-100 pb-4">
+            <div class="flex items-center gap-3">
+                <div class="p-3 bg-indigo-100 text-indigo-600 rounded-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                        </path>
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-bold text-slate-900">Danışmanlık Firması Admin Paneli</h1>
+            </div>
+            <a href="/"
+                class="px-4 py-2 text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">Ana
+                Sayfaya Dön</a>
+        </div>
+
+        <!-- ÜST İSTATİSTİK KARTLARI (DASHBOARD) -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-slate-500 mb-1">Toplam Müşteri</p>
+                    <h3 class="text-2xl font-bold text-slate-800">{{ companies|length }}</h3>
+                </div>
+                <div class="p-3 bg-indigo-50 text-indigo-600 rounded-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                        </path>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-slate-500 mb-1">Riskli Firmalar</p>
+                    <h3 class="text-2xl font-bold text-red-600">0</h3>
+                </div>
+                <div class="p-3 bg-red-50 text-red-600 rounded-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                        </path>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-slate-500 mb-1">Aylık Tahsilat</p>
+                    <h3 class="text-2xl font-bold text-slate-800">₺ 0</h3>
+                </div>
+                <div class="p-3 bg-emerald-50 text-emerald-600 rounded-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                        </path>
+                    </svg>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-slate-500 mb-1">Sistem Durumu</p>
+                    <h3 class="text-xl font-bold text-emerald-500">Aktif (AI)</h3>
+                </div>
+                <div class="p-3 bg-blue-50 text-blue-600 rounded-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- GRAFİK BÖLÜMÜ (CHART.JS) -->
+        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 shadow-inner mb-8 flex flex-col items-center">
+            <h3 class="text-lg font-semibold text-slate-700 mb-4 w-full text-left">Finansal Dağılım Özeti (Demo)</h3>
+            <div class="h-64 w-full flex justify-center">
+                <canvas id="financeChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Firma Listesi Tablosu -->
+        <div class="mb-6 flex justify-between items-center mt-10">
+            <h2 class="text-lg font-semibold text-slate-700">Müşteri Firmalarımız</h2>
+            <button onclick="openAddCompanyModal()"
+                class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium rounded-lg transition-colors shadow-sm">
+                + Yeni Firma Ekle
+            </button>
+        </div>
+
+        <div class="overflow-x-auto rounded-lg border border-slate-200">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 text-slate-500 text-sm border-b border-slate-200">
+                        <th class="p-4 font-medium">Firma ID</th>
+                        <th class="p-4 font-medium">Firma Unvanı</th>
+                        <th class="p-4 font-medium">Vergi No</th>
+                        <th class="p-4 font-medium">Risk Skoru</th>
+                        <th class="p-4 font-medium text-right">İşlem</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 text-sm">
+                    {% for company in companies %}
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="p-4 text-slate-500">#{{ company.id }}</td>
+                        <td class="p-4 font-semibold text-slate-800">{{ company.name }}</td>
+                        <td class="p-4 font-mono text-slate-500">{{ company.tax_number }}</td>
+                        <td class="p-4">
+                            {% if company.risk_skoru == 'Kötü' or company.risk_skoru == 'Riskli' %}
+                            <span class="px-2 py-1 bg-red-100 text-red-700 rounded text-xs font-bold">{{
+                                company.risk_skoru }}</span>
+                            {% else %}
+                            <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-bold">{{
+                                company.risk_skoru }}</span>
+                            {% endif %}
+                        </td>
+                        <td class="p-4 text-right flex justify-end items-center gap-3">
+                            <a href="/admin/company/{{ company.id }}"
+                                class="text-indigo-600 hover:text-indigo-800 font-medium px-3 py-1 bg-indigo-50 hover:bg-indigo-100 rounded transition-colors">İncele</a>
+                            <form action="/admin/delete_company/{{ company.id }}" method="POST"
+                                onsubmit="return confirm('Bu firmayı silmek istediğinize emin misiniz?');">
+                                <button type="submit"
+                                    class="text-red-500 hover:text-red-700 font-medium bg-red-50 hover:bg-red-100 px-3 py-1 rounded transition-colors">Sil</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="p-8 text-center text-slate-400">
+                            Sistemde henüz kayıtlı bir firma bulunmuyor.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- YENİ FİRMA EKLEME MODAL -->
+    <div id="addCompanyModal"
+        class="fixed inset-0 bg-slate-900 bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-slate-800">Yeni Firma Ekle</h2>
+                <button onclick="closeAddCompanyModal()" class="text-slate-400 hover:text-slate-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+            <form action="/admin/add_company" method="POST" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Firma Unvanı</label>
+                    <input type="text" name="name" required
+                        class="w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-indigo-500"
+                        placeholder="Örn: Pro Sicht A.Ş.">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Vergi / Sicil Numarası</label>
+                    <input type="text" name="tax_number" required
+                        class="w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-indigo-500"
+                        placeholder="Örn: 1234567890">
+                </div>
+                <div class="pt-4 flex justify-end space-x-3">
+                    <button type="button" onclick="closeAddCompanyModal()"
+                        class="px-4 py-2 text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg">İptal</button>
+                    <button type="submit"
+                        class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg font-medium">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openAddCompanyModal() { document.getElementById('addCompanyModal').classList.remove('hidden'); }
+        function closeAddCompanyModal() { document.getElementById('addCompanyModal').classList.add('hidden'); }
+
+        // Chart.js Konfigürasyonu
+        const ctx = document.getElementById('financeChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Kullanılan Kredi', 'Boş Limit'],
+                datasets: [{
+                    data: [79555620, 115218622], // Demo Veri
+                    backgroundColor: ['#f43f5e', '#10b981'],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
