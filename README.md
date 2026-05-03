@@ -1,6 +1,7 @@
 # 🚀 PROSICHT - AI Destekli Finansal Analiz Platformu
 
 **Hackathon MVP v1.0**
+*SADECE 24 SAATTE 0 DAN N8N İLE YAPTIĞIM Aİ DESTEKLİ PROSICHT FİNANSAL ANALİZ PROGRAMI*
 
 PROSICHT, karmaşık finansal raporları (Findeks vb.) saniyeler içinde analiz eden, manuel veri girişini sıfıra indiren ve yapay zeka (LLM) destekli uzman finansal görüş sunan yeni nesil bir B2B SaaS platformudur.
 
