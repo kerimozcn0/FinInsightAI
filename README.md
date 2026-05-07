@@ -1,21 +1,21 @@
-# 🚀 PROSICHT - AI Destekli Finansal Analiz Platformu
+# PROSICHT - AI Destekli Finansal Rapor Analizörü
 
-**Hackathon MVP v1.0**
-*SADECE 24 SAATTE 0 DAN N8N İLE YAPTIĞIM Aİ DESTEKLİ PROSICHT FİNANSAL ANALİZ PROGRAMI*
+Bu proje, BSMT Hackathon kapsamında 24 saatlik kısıtlı bir süre içinde geliştirilmiş bir Minimum Viable Product (MVP) çalışmasıdır. Temel amacı; danışmanlık ve finans firmalarının saatlerini alan manuel veri girişi süreçlerini, OCR ve LLM (Büyük Dil Modelleri) kullanarak otomatize etmektir.
+NOT: 24 saat içerisinde n8n ve ai pipeline kısmı tamamen 0 dan öğrenildi. Artık yapımcı kurduğu sistem üzerine yapay zeka bağlamayı ve yapay zekaya senkronize şekilde bilgi ayıklatıp geri sisteme yollatıp çıktı oluşturmayı öğrendi.++
+## Proje Özeti
+Prosicht, sisteme yüklenen karmaşık finansal belgeleri (Findeks Raporları, Mizan Tabloları vb.) analiz eder, içindeki borç/limit/risk verilerini ayrıştırır ve yapılandırılmış JSON formatında backend'e iletir. Sistem aynı zamanda elde edilen ham verileri yorumlayarak profesyonel bir finansal durum özeti (Uzman Görüşü) üretir.
 
-PROSICHT, karmaşık finansal raporları (Findeks vb.) saniyeler içinde analiz eden, manuel veri girişini sıfıra indiren ve yapay zeka (LLM) destekli uzman finansal görüş sunan yeni nesil bir B2B SaaS platformudur.
+## 🛠️ Teknik Mimari & Teknoloji Yığını
 
-## 🌟 Öne Çıkan Özellikler
+* **Backend:** Python, FastAPI, Uvicorn
+* **Veritabanı:** SQLite, SQLAlchemy (ORM)
+* **Frontend:** HTML5, Tailwind CSS, Chart.js, Jinja2 Template Engine
+* **AI Pipeline:** n8n (Workflow Automation), Google Gemini (LLM & OCR)
 
-* **🤖 Multi-Format AI/OCR Engine:** Belge (PDF/Excel) yükleme ile saniyeler içinde veri kazıma (N8n & Google Gemini Entegrasyonu).
-* **📊 Canlı Finansal Görselleştirme:** Çekilen verilerin Chart.js destekli dinamik Area Chart ve Doughnut grafiklere dönüşmesi.
-* **🧠 LLM Uzman Görüşü:** Salt rakamları değil, rakamların arkasındaki hikayeyi okuyan ve finansal sağlık raporu üreten yapay zeka altyapısı.
-* **🔒 Rol Bazlı Güvenlik:** Hassas verilere erişimde şifreli yetkilendirme katmanı.
-* **⚡ Editable MVP:** Yapay zekanın çektiği verilerin admin tarafından manuel olarak güncellenebilmesi ve grafiğe anında yansıması.
+## Proje Yapısı
 
-## 🛠️ Kullanılan Teknolojiler (Teknoloji Yığını)
-
-* **Backend:** Python, FastAPI, SQLAlchemy (SQLite)
-* **Frontend:** HTML5, Tailwind CSS, Chart.js, Vanilla JS
-* **AI & Otomasyon:** N8n Workflow, Google Gemini (LLM) API
-* **Mimari:** RESTful API, Webhook Entegrasyonu
+* `main.py`: FastAPI sunucu yapılandırması, routing ve CRUD işlemleri.
+* `ai_service.py`: N8n webhook'ları ile haberleşen, yüklenen belgeleri base64 veya text formatında işleyip JSON olarak parse eden servis katmanı.
+* `models.py`: SQLAlchemy veritabanı tablolarının tanımlandığı şema dosyası.
+* `database.py`: Veritabanı bağlantı yönetimi.
+* `templates/`: Kullanıcı ve Admin arayüzlerini barındıran Jinja2 destekli HTML dosyaları (`index.html`, `admin.html`, `company_detail.html`).
