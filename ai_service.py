@@ -3,7 +3,7 @@ import base64
 import json
 import re
 
-N8N_WEBHOOK_URL = "https://kerimozcn.app.n8n.cloud/webhook-test/c65a56d2-db4f-4a25-af00-3b990acdc083" 
+N8N_WEBHOOK_URL = "" #BURAYA APİ KEY GİRİLECEK.
 
 def process_financial_document(filename, content):
     try:
