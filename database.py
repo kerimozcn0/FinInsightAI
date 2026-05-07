@@ -1,7 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-# SQLite veritabanı dosyamızın adı fintech.db olacak
 SQLALCHEMY_DATABASE_URL = "sqlite:///./fintech.db"
 
 engine = create_engine(
@@ -11,7 +10,6 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 
-# Veritabanı oturumu açmak için yardımcı fonksiyon
 def get_db():
     db = SessionLocal()
     try:
