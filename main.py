@@ -37,7 +37,7 @@ async def upload_document(file: UploadFile = File(...), db: Session = Depends(ge
             company.toplam_limit = data.get("toplam_limit", "0 TL")
             company.risk_skoru = data.get("risk_skoru", "Belirsiz")
             company.uzman_gorusu = data.get("ai_uzman_gorusu", "Uzman görüşü bulunamadı.")
-            # YENİ: Bankaları "Banka Limitleri" kutusuna atıyoruz
+            
             company.banka_limit = data.get("banka_limit", "") 
             
         try:
@@ -82,7 +82,7 @@ async def update_company(
     bilanco: str = Form(None), 
     gelir: str = Form(None), 
     nakit_akis: str = Form(None),
-    banka: str = Form(None), # YENİ: Güncelleme desteği eklendi
+    banka: str = Form(None), 
     db: Session = Depends(get_db)
 ):
     company = db.query(models.Company).filter(models.Company.id == company_id).first()
@@ -93,7 +93,7 @@ async def update_company(
         if bilanco is not None: company.bilanco_toplami = bilanco
         if gelir is not None: company.gelir_tablosu = gelir
         if nakit_akis is not None: company.nakit_akis = nakit_akis
-        if banka is not None: company.banka_limit = banka # YENİ
+        if banka is not None: company.banka_limit = banka 
         db.commit()
     return RedirectResponse(url=f"/admin/company/{company_id}", status_code=303)
 
